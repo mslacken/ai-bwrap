@@ -27,6 +27,7 @@ AI coding agents run shell commands, edit files, and fetch from the network on y
   sudo apt install bubblewrap     # Debian/Ubuntu
   sudo pacman -S bubblewrap       # Arch
   sudo dnf install bubblewrap     # Fedora
+  sudo zypper install bubblewrap  # openSUSE
   ```
 - The agent you want to run (`claude`, `opencode`, `grok`, …) on your `$PATH`.
 
@@ -61,6 +62,7 @@ Anything after the agent name that `ai-bwrap` doesn't recognize is passed straig
 | Option | Description |
 |---|---|
 | `--branch [dir]` | Copy the current directory to a throwaway branch and run there instead. Without `[dir]`, a timestamped sibling directory is created. Your original tree is never touched. |
+| `--overlay` | Run the agent on a private copy-on-write view of the working directory (kernel overlayfs). When the agent exits you see a summary of what changed and are asked whether to write it back to the real directory; answering no leaves your tree untouched and discards the changes. Only the working directory is overlayed — an agent's own config/cache dirs are bound directly and their changes always persist. Mutually exclusive with `--branch`. |
 | `--bind DIR` | Extra read-write bind mount (repeatable). |
 | `--ro-bind DIR` | Extra read-only bind mount (repeatable). |
 | `--env KEY=VALUE` | Extra environment variable (repeatable). |
